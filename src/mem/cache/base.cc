@@ -399,6 +399,11 @@ BaseCache::handleTimingReqMiss(PacketPtr pkt, MSHR *mshr, CacheBlk *blk,
     }
 }
 
+
+// TODO:
+//  - No MSHR allocated
+//  - Check if you have it, if not pass request to L3 (real L2) like nothing happened
+//  - Handle clean and dirty evicitons
 void
 BaseCache::recvTimingReq(PacketPtr pkt)
 {
@@ -483,6 +488,9 @@ BaseCache::handleUncacheableWriteResp(PacketPtr pkt)
     cpuSidePort.schedTimingResp(pkt, completion_time);
 }
 
+// TODO:
+//  - No MCHR deallocated (because never allocated)
+//  - Check if packet's MemCmd is a clean or dirty writeback, these are the only blocks to write into the victim cache
 void
 BaseCache::recvTimingResp(PacketPtr pkt)
 {

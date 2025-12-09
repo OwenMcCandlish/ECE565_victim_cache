@@ -438,6 +438,7 @@ class BaseCache : public ClockedObject
      * @param cmd Command of the incoming requesting packet
      * @return Whether we should allocate on the fill
      */
+    // NOTE: Likely making a change here
     inline bool allocOnFill(MemCmd cmd) const
     {
         return clusivity == enums::mostly_incl ||

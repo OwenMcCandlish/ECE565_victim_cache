@@ -1,0 +1,25 @@
+
+[L1 Cache]
+    |
+    |
+    |
+[Victim Cache]
+    |
+    |
+    |
+[L3 Cache]
+
+
+Needed Functionality:
+* Only store evictions from L1
+    > Check pkt->MemCmd if dirty or clean writeback
+* If not writeback request, pass request through (don't allocate MSHR)
+* If read hit, generate packet to send back to L1
+* If read miss, pass the packet through to L3 like nothing happened
+* Consider what happens when passing through a packet and the reciever blocks (need some kind of packet queue)
+* Make sure Snoop operations still work (BaseCache::recvTimingSnoop*)
+* Create stats so debugging isn't hell
+
+Notes:
+* BaseCache::recvTimingReq reads packets coming from L1
+* BaseCache::recvTimingResp read packets coming from L3
