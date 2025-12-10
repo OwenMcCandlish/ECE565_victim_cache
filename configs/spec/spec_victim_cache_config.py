@@ -69,6 +69,8 @@ class VictimCacheL2(Cache):
 
     clusivity = 'mostly_excl'
 
+    is_victim_cache = True
+
     tags = FALRU()
 
     # Disable prefetching

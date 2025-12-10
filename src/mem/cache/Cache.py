@@ -152,6 +152,9 @@ class BaseCache(ClockedObject):
     # data cache.
     write_allocator = Param.WriteAllocator(NULL, "Write allocator")
 
+    # Parameter to enable victim cache mode. I.E. Eliminates MSHR allocation and only stores writebacks
+    is_victim_cache = Param.Bool(False, "Enables victim cache mode")
+
 class Cache(BaseCache):
     type = 'Cache'
     cxx_header = 'mem/cache/cache.hh'

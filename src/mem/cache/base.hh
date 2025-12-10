@@ -935,6 +935,10 @@ class BaseCache : public ClockedObject
      */
     const enums::Clusivity clusivity;
 
+
+    /**Owen: Tells the cache to act like a victim cache */
+    bool isVictimCache;
+
     /**
      * Is this cache read only, for example the instruction cache, or
      * table-walker cache. A cache that is read only should never see
