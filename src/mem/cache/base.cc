@@ -568,7 +568,7 @@ BaseCache::recvTimingResp(PacketPtr pkt)
         bool allocate = (writeAllocator && mshr->wasWholeLineWrite) ?
             writeAllocator->allocate() : mshr->allocOnFill();
         // if victim cache, force no allocation for demand misses
-        allocate = (isVictimCache && pkt->isRead()) false : allocate;
+        allocate = (isVictimCache && pkt->isRead()) ? false : allocate;
 
         blk = handleFill(pkt, blk, writebacks, allocate);
         assert(blk != nullptr);
