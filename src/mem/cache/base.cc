@@ -433,6 +433,7 @@ BaseCache::recvTimingReq(PacketPtr pkt)
         PacketList writebacks;
         // Note that lat is passed by reference here. The function
         // access() will set the lat value.
+        // NOTE: for victim cache, this function allocates block for writebacks and returns true
         satisfied = access(pkt, blk, lat, writebacks);
 
         // After the evicted blocks are selected, they must be forwarded
@@ -523,6 +524,11 @@ BaseCache::recvTimingResp(PacketPtr pkt)
         assert(pkt->req->isUncacheable());
         handleUncacheableWriteResp(pkt);
         return;
+    }
+
+    // Handled same way as uncacheable resp, forward without mshr
+    if (isVictimCache) {
+        handleUncacheableWriteResp(pkt);
     }
 
     // we have dealt with any (uncacheable) writes above, from here on

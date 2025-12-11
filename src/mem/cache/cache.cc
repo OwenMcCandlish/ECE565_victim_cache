@@ -324,6 +324,10 @@ void
 Cache::handleTimingReqMiss(PacketPtr pkt, CacheBlk *blk, Tick forward_time,
                            Tick request_time)
 {
+    // If miss, forward to next cache without mshr allocation
+    if (isVictimCache) {
+        memSidePort.schedSendTiming(pkt, forward_time);
+    }
 
     // These should always hit due to the earlier Locked Read
     assert(pkt->cmd != MemCmd::LockedRMWWriteReq);
