@@ -11,10 +11,13 @@ from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
-
+from datetime import datetime
 
 DEFAULT_BENCHES = ["mcf_s", "lbm_s", "bwaves_s", "exchange2_s", "nab_s"]
 
+def log(msg, **kwargs):
+    current_datetime = datetime.now()
+    print(f'[{current_datetime}] {msg}', flush=True, **kwargs)
 
 @dataclass(frozen=True)
 class ConfigCase:
@@ -139,9 +142,8 @@ def main() -> int:
                 outdir = out_root / cfg.name / bench / f"rep{rep:02d}_{run_id}"
                 jobs.append((cfg, bench, rep, outdir))
 
-    print(
+    log(
         f"Planned runs: {len(jobs)} | max_workers={args.max_workers} | resume={args.resume}",
-        flush=True,
     )
 
     failures = 0
@@ -163,11 +165,11 @@ def main() -> int:
 
         for fut in as_completed(futs):
             outdir, rc, status = fut.result()
-            print(f"[{status}] {outdir}", flush=True)
+            log(f"[{status}] {outdir}")
             if status in {"FAIL", "TIMEOUT"}:
                 failures += 1
 
-    print(f"Done. Failures: {failures} / {len(jobs)}")
+    log(f"Done. Failures: {failures} / {len(jobs)}")
     return 0 if failures == 0 else 2
 
 
