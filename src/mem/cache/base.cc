@@ -512,11 +512,6 @@ BaseCache::recvTimingResp(PacketPtr pkt)
     DPRINTF(Cache, "%s: Handling response %s\n", __func__,
             pkt->print());
 
-    // If cache is in victim cache mode pass response straight through to L1
-    // if (isVictimCache) {
-    //     cpuSidePort.schedTimingResp(pkt, 0);
-    // }
-
     // if this is a write, we should be looking at an uncacheable
     // write
     if (pkt->isWrite() && pkt->cmd != MemCmd::LockedRMWWriteResp) {
