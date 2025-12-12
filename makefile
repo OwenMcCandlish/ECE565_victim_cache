@@ -1,22 +1,22 @@
-CPU_MODEL="WIB_O3CPU"
+G5OPT = ./build/ECE565-X86/gem5.opt
+LOG = scripts/log.out
 BENCHMARK="lbm_s"
 
-.PHONY: build sim debug
+all: build sweep
 
-empty_:
-	echo "NOP"
-
+.PHONY: build
 build:
-	scons-3 USE_HDF5=0 -j 10 ./build/ECE565-X86/gem5.opt
+	scons-3 USE_HDF5=0 -j 8 $(G5OPT)
 
+.PHONY: sweep
+sweep:
+	@nohup python3 scripts/run_spec_sweep.py --sweep scripts/victim_config.json --max-workers 6 --reps 1 > $(LOG) 2>&1 &
+
+.PHONY: sim-victim
 sim-victim:
-	build/ECE565-X86/gem5.opt configs/spec/spec_victim_cache_config.py --cpu-type=X86MinorCPU --benchmark=$(BENCHMARK) --enable-fast-forward --caches --enable-victim-cache
+	build/ECE565-X86/gem5.opt configs/spec/spec_victim_cache_config.py --cpu-type=X86MinorCPU --benchmark=$(BENCHMARK) --ff-instructions 100000 --sim-instructions 10000 --caches --enable-victim-cache
 
+.PHONY: sim-no-victim
 sim-no-victim:
-	build/ECE565-X86/gem5.opt configs/spec/spec_victim_cache_config.py --cpu-type=X86MinorCPU --benchmark=$(BENCHMARK) --enable-fast-forward --caches
-
-debug:
-	# Can also print to file with --debug-file
-	DEBUG_FLAG="WIB"
-	./build/ECE565-X86/gem5.opt configs/spec/spec_se_project_config.py --debug-flags=$(DEBUG_FLAG) --cpu-type=$(CPU_MODEL) -b $(BENCHMARK) --caches --l2cache --enable-fast-forward
+	build/ECE565-X86/gem5.opt configs/spec/spec_victim_cache_config.py --cpu-type=X86MinorCPU --benchmark=$(BENCHMARK) --ff-instructions 100000 --sim-instructions 10000 --caches --disable-victim-cache
 

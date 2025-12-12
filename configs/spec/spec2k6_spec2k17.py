@@ -65,13 +65,13 @@ def get_process(options, target_isa="arm"):
 
     ### SPEC 2006
     # X86 binary path
-    #bench_dir_06='/home/yara/mithuna2/green456/SPEC_2006/benchspec/CPU2006/'
-    #exe_dir_06 = '/home/yara/mithuna2/green456/SPEC_2006/benchspec/CPU2006/'
+    bench_dir_06='/home/yara/mithuna2/green456/SPEC_2006/benchspec/CPU2006/'
+    exe_dir_06 = '/home/yara/mithuna2/green456/SPEC_2006/benchspec/CPU2006/'
 
     # ARM binary path
-    bench_dir_06='/home/min/a/ece565/benchspec-2020/CPU2006/'
-    exe_dir_06='/home/min/a/ece565/benchspec-2020/CPU2006/'
-    exe_suffix = '_base.amd64-armcross'
+    # bench_dir_06='/home/min/a/ece565/benchspec-2020/CPU2006/'
+    # exe_dir_06='/home/min/a/ece565/benchspec-2020/CPU2006/'
+    # exe_suffix = '_base.amd64-armcross'
     if("x86" in target_isa):
       exe_suffix = '_base.amd64-m64-gcc43-nn'
 

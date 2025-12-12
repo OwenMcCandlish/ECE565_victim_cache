@@ -41,6 +41,9 @@ class X86CPU:
     ArchInterrupts = X86LocalApic
     ArchISA = X86ISA
 
+class X86MinorCPU(BaseMinorCPU, X86CPU):
+    mmu = X86MMU()
+
 class X86AtomicSimpleCPU(BaseAtomicSimpleCPU, X86CPU):
     mmu = X86MMU()
 
