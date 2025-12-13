@@ -1,0 +1,6 @@
+[tool.pyright]
+reportUnknownVariableType = "none"
+reportImplicitStringConcatenation = "none"
+extraPaths = ["./src/python", "./configs/"]
+exclude = ["build/", "test/"]
+typeCheckingMode = "basic"
