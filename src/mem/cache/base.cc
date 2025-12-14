@@ -563,7 +563,7 @@ BaseCache::recvTimingResp(PacketPtr pkt)
         bool allocate = (writeAllocator && mshr->wasWholeLineWrite) ?
             writeAllocator->allocate() : mshr->allocOnFill();
         // if victim cache, force no allocation for demand misses
-        allocate = (isVictimCache) ? false : allocate;
+        // allocate = (isVictimCache) ? false : allocate;
 
         blk = handleFill(pkt, blk, writebacks, allocate);
         assert(blk != nullptr);
@@ -1530,6 +1530,8 @@ BaseCache::handleFill(PacketPtr pkt, CacheBlk *blk, PacketList &writebacks,
     // When handling a fill, we should have no writes to this line.
     assert(addr == pkt->getBlockAddr(blkSize));
     assert(!writeBuffer.findMatch(addr, is_secure));
+
+    allocate = (isVictimCache) ? false : allocate;
 
     if (!blk) {
         // better have read new data...

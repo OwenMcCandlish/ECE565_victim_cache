@@ -176,6 +176,8 @@ parser.add_argument("--enable-fast-forward", action='store_true',
 parser.add_argument("--measure-ff-time", action='store_true',
                     help="Measure and report fast-forward execution time")
 
+parser.add_argument("--enable-fake-victim", action='store_true', default=False)
+
 args = parser.parse_args()
 
 
@@ -303,6 +305,10 @@ else:
         # L2 Cache (Victim Cache): 64 entries, fully-assoc, 1 cycle, mostly_excl
         # This simulates a victim cache between L1 and L3
         system.l2 = VictimCacheL2(clk_domain=system.cpu_clk_domain)
+
+        if (args.enable_fake_victim):
+            print("==============ENABLED FAKE VICTIM==================")
+            system.l2.is_victim_cache = False
         print("L2 (Victim):  4KB (64 entries), fully-assoc, 1 cycle, mostly_excl")
 
         # Create crossbars for three-level hierarchy

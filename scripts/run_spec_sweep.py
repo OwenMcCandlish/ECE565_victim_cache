@@ -1,13 +1,9 @@
-#!/usr/bin/env python3
-from __future__ import annotations
-
 import argparse
 import hashlib
 import json
 import os
 import subprocess
 from concurrent.futures import ProcessPoolExecutor, as_completed
-from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
@@ -19,11 +15,10 @@ def log(msg, **kwargs):
     current_datetime = datetime.now()
     print(f'[{current_datetime}] {msg}', flush=True, **kwargs)
 
-@dataclass(frozen=True)
 class ConfigCase:
-    name: str
-    args: List[str]
-
+    def __init__(self, name, args):
+        self.name = name
+        self.args = args
 
 def stable_id(*parts: str) -> str:
     h = hashlib.sha1()

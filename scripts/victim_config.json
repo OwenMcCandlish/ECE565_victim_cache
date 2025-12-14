@@ -2,12 +2,12 @@
     "gem5_bin": "build/ECE565-X86/gem5.opt",
     "spec_config_py": "configs/spec/spec_victim_cache_config.py",
     "out_root": "out",
-  
+
     "common_args": [
       "--enable-fast-forward",
       "--caches"
     ],
-  
+
     "configs": [
       {
         "name": "minor_no_victim",
@@ -16,7 +16,11 @@
       {
         "name": "minor_victim",
         "args": ["--cpu-type=X86MinorCPU", "--enable-victim-cache"]
+      },
+      {
+        "name": "minor_fake_victim",
+        "args": ["--cpu-type=X86MinorCPU", "--enable-victim-cache", "--enable-fake-victim"]
       }
     ]
   }
-  
+
