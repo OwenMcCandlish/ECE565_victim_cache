@@ -157,11 +157,17 @@ if '--ruby' in sys.argv:
 parser.add_argument("-b", "--benchmark", default="",
                  help="The benchmark to be loaded.")
 
+vc_sizes = {16*i: f"{i}kB" for i in (1, 2, 4, 8, 16)}
+
 # Victim Cache Control
 parser.add_argument("--enable-victim-cache", action='store_true', dest='victim_cache_enabled',
                     help="Enable victim cache (3-level: L1â†’L2(victim)â†’L3)")
 parser.add_argument("--disable-victim-cache", action='store_false', dest='victim_cache_enabled',
                     help="Disable victim cache (2-level: L1â†’L2, L2 is 128KB like baseline)")
+parser.add_argument("--no-allocate", action='store_true',
+                    help="Remove allocation on L2 miss")
+parser.add_argument("--vc-entries", type=int, choices=vc_sizes.keys(), default=64,
+                    help="Number of entries in victim cache")
 parser.set_defaults(victim_cache_enabled=True)  # Default: victim cache ON
 
 # Fast-forward and Simulation Control Parameters
@@ -300,8 +306,16 @@ else:
 
         # L2 Cache (Victim Cache): 64 entries, fully-assoc, 1 cycle, mostly_excl
         # This simulates a victim cache between L1 and L3
-        system.l2 = VictimCacheL2(clk_domain=system.cpu_clk_domain)
-        print("L2 (Victim):  4KB (64 entries), fully-assoc, 1 cycle, mostly_excl")
+        vc = VictimCacheL2(clk_domain=system.cpu_clk_domain)
+        vc_entr = args.vc_entries
+        vc_size = vc_sizes[vc_entr]
+        
+        vc.size = vc_size
+        vc.assoc = vc_entr
+        
+        system.l2 = vc
+        
+        print(f"L2 (Victim):  {vc_size} ({vc_entr} entries), fully-assoc, 1 cycle, mostly_excl")
 
         # Create crossbars for three-level hierarchy
         # L1 â† tol2bus â†’ L2 â† tol3bus â†’ L3 â† membus â†’ Memory
@@ -317,6 +331,11 @@ else:
         # Connect L2 (victim cache) between tol2bus and tol3bus
         system.l2.cpu_side = system.tol2bus.mem_side_ports
         system.l2.mem_side = system.tol3bus.cpu_side_ports
+        
+        if args.no_allocate:
+            system.l2.is_victim_cache = True
+        else:
+            system.l2.is_victim_cache = False
 
     else:
         system.l2 = RealL2CacheL3(clk_domain=system.cpu_clk_domain)

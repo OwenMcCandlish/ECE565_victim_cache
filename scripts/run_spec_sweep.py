@@ -148,6 +148,7 @@ def main() -> int:
 
     failures = 0
     with ProcessPoolExecutor(max_workers=args.max_workers) as ex:
+        log(cfg)
         futs = [
             ex.submit(
                 run_one,
