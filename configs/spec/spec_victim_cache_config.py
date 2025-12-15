@@ -68,6 +68,7 @@ class VictimCacheL2(Cache):
     write_buffers = 4
 
     clusivity = 'mostly_excl'
+    is_victim_cache = False
 
     tags = FALRU()
 
@@ -313,6 +314,11 @@ else:
         vc.size = vc_size
         vc.assoc = vc_entr
         
+        if args.no_allocate:
+            vc.is_victim_cache = True
+        else:
+            vc.is_victim_cache = False
+        
         system.l2 = vc
         
         print(f"L2 (Victim):  {vc_size} ({vc_entr} entries), fully-assoc, 1 cycle, mostly_excl")
@@ -331,11 +337,6 @@ else:
         # Connect L2 (victim cache) between tol2bus and tol3bus
         system.l2.cpu_side = system.tol2bus.mem_side_ports
         system.l2.mem_side = system.tol3bus.cpu_side_ports
-        
-        if args.no_allocate:
-            system.l2.is_victim_cache = True
-        else:
-            system.l2.is_victim_cache = False
 
     else:
         system.l2 = RealL2CacheL3(clk_domain=system.cpu_clk_domain)

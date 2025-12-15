@@ -4,6 +4,7 @@
     "out_root": "out",
   
     "common_args": [
+      "--cpu-type=X86MinorCPU",
       "--enable-fast-forward",
       "--caches"
     ],
@@ -11,23 +12,23 @@
     "configs": [
       {
         "name": "minor_no_victim",
-        "args": ["--cpu-type=X86MinorCPU", "--disable-victim-cache"]
+        "args": ["--disable-victim-cache"]
       },
       {
-        "name": "minor_victim",
-        "args": ["--cpu-type=X86MinorCPU", "--enable-victim-cache"]
+        "name": "minor_victim_alloc",
+        "args": ["--enable-victim-cache"]
       },
       {
         "name": "minor_victim_no_alloc_64",
-        "args": ["--cpu-type=X86MinorCPU", "--enable-victim-cache", "--no-allocate"]
+        "args": ["--enable-victim-cache", "--no-allocate"]
       },
       {
         "name": "minor_victim_no_alloc_16",
-        "args": ["--cpu-type=X86MinorCPU", "--enable-victim-cache", "--no-allocate", "--vc-entries", "16"]
+        "args": ["--enable-victim-cache", "--no-allocate", "--vc-entries", "16"]
       },
       {
         "name": "minor_victim_no_alloc_256",
-        "args": ["--cpu-type=X86MinorCPU", "--enable-victim-cache", "--no-allocate", "--vc-entries", "256"]
+        "args": ["--enable-victim-cache", "--no-allocate", "--vc-entries", "256"]
       }
     ]
   }

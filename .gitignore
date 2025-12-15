@@ -32,3 +32,10 @@ m5out
 configs/example/memcheck.cfg
 configs/dram/lowp_sweep.cfg
 .pyenv
+
+_out
+out
+all_stats_json
+scripts/parse_all_stats_to_json.py
+scripts/parse_stats.py
+scripts/log.out

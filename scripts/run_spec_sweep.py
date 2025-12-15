@@ -58,8 +58,8 @@ def run_one(
         cmd.append(f"--debug-flags={debug_flags}")
 
     cmd.append(spec_config_py)
-    cmd.extend(cfg.args)
     cmd.append(f"--benchmark={bench}")
+    cmd.extend(cfg.args)
 
     meta = {
         "timestamp": datetime.now().isoformat(timespec="seconds"),
