@@ -134,6 +134,8 @@ class BaseCache(ClockedObject):
     # cache.
     writeback_clean = Param.Bool(False, "Writeback clean lines")
 
+    is_victim_cache = Param.Bool(False, "Cache will not allocate on fill")
+
     # Control whether this cache should be mostly inclusive or mostly
     # exclusive with respect to upstream caches. The behaviour on a
     # fill is determined accordingly. For a mostly inclusive cache,

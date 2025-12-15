@@ -35,6 +35,7 @@ from m5.objects.X86LocalApic import X86LocalApic
 from m5.objects.X86ISA import X86ISA
 from m5.objects.BaseMinorCPU import BaseMinorCPU
 
+
 class X86CPU:
     ArchDecoder = X86Decoder
     ArchMMU = X86MMU

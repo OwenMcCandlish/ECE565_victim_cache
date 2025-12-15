@@ -675,6 +675,8 @@ class BaseCache : public ClockedObject
      */
     const bool writebackClean;
 
+    bool is_victim_cache;
+
     /**
      * Writebacks from the tempBlock, resulting on the response path
      * in atomic mode, must happen after the call to recvAtomic has

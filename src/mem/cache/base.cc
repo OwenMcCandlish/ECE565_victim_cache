@@ -87,6 +87,7 @@ BaseCache::BaseCache(const BaseCacheParams &p, unsigned blk_size)
       prefetcher(p.prefetcher),
       writeAllocator(p.write_allocator),
       writebackClean(p.writeback_clean),
+      is_victim_cache(p.is_victim_cache),
       tempBlockWriteback(nullptr),
       writebackTempBlockAtomicEvent([this]{ writebackTempBlockAtomic(); },
                                     name(), false,
